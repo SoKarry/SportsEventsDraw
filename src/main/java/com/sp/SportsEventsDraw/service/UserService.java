@@ -17,8 +17,8 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
         }
         user.setStatus(true);
         user.setRoles(Collections.singleton(Role.USER));
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
         return true;
     }
