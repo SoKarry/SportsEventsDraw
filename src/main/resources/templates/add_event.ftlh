@@ -3,6 +3,10 @@
 <div>
     <form method="post">
         <input type="text" name="name" placeholder="Введите название события" />
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Example textarea</label>
+            <textarea class="form-control" name="pl_names" rows="5"></textarea>
+        </div>
         <button type="submit">Добавить</button>
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
     </form>
