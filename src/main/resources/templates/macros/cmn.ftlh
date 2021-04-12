@@ -42,10 +42,24 @@
                     </#if>
                 </ul>
             </div>
-            <div class="navbar-text mr-2"><b>${name}</b></div>
+<#--            <div class="dropdown show">-->
+<#--                <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<#--                    ${name}-->
+<#--                </a>-->
             <#if known>
-                <@l.logout />
+                <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ${name}
+                    </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                    <a class="dropdown-item"><@l.logout /></a>
+<#--                    <a class="dropdown-item" href="#">Another action</a>-->
+<#--                    <a class="dropdown-item" href="#">Something else here</a>-->
+                </div>
+            <#else>
+                <div class="navbar-text mr-2"><b>${name}</b></div>
             </#if>
+            </div>
         </div>
     </nav>
     <body>
