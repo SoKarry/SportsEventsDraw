@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 public class Event {
@@ -19,6 +20,8 @@ public class Event {
     @Transient
     @NotBlank(message = "Введите игроков")
     private String pl_names;
+    @OneToMany(mappedBy = "ev_owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Game> games;
 
     public Event() {
     }
@@ -62,5 +65,13 @@ public class Event {
 
     public void setPl_names(String pl_names) {
         this.pl_names = pl_names;
+    }
+
+    public Set<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(Set<Game> games) {
+        this.games = games;
     }
 }

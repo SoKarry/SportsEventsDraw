@@ -17,10 +17,21 @@ public class Game {
     @JoinColumn(name = "player2_id")
     private Player player2;
 
+    public Game() {
+    }
+
     public Game(Event ev_owner, Player player1, Player player2) {
         this.ev_owner = ev_owner;
         this.player1 = player1;
         this.player2 = player2;
+    }
+
+    public String getPlayer1Name() {
+        return player1 != null ? player1.getPlname() : "<not find>";
+    }
+
+    public String getPlayer2Name() {
+        return player2 != null ? player2.getPlname() : "<not find>";
     }
 
     public Long getId() {

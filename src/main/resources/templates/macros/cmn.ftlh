@@ -33,7 +33,7 @@
                     </li>
                     </#if>
                     <li class="nav-item">
-                        <a class="nav-link" href="/add_event">Add event</a>
+                        <a class="nav-link" href="/add_event">My events</a>
                     </li>
                     <#if isAdmin>
                     <li class="nav-item">
