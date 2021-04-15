@@ -1,8 +1,10 @@
 package com.sp.SportsEventsDraw.domain;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
@@ -13,7 +15,10 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "Введите никнейм")
+    @Length(max=255, message = "Слишком большой ник (введите до 255 символов)")
     private String username;
+    @NotBlank(message = "Введите пароль")
     private String password;
     private boolean status;
 

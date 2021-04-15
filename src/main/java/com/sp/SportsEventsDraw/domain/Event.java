@@ -1,16 +1,24 @@
 package com.sp.SportsEventsDraw.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Event {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "Заполните поле название")
+    @Length(max=255, message = "Слишком большое название (введите до 255 символов)")
     private String name;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User owner;
+    @Transient
+    @NotBlank(message = "Введите игроков")
+    private String pl_names;
 
     public Event() {
     }
@@ -46,5 +54,13 @@ public class Event {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public String getPl_names() {
+        return pl_names;
+    }
+
+    public void setPl_names(String pl_names) {
+        this.pl_names = pl_names;
     }
 }
