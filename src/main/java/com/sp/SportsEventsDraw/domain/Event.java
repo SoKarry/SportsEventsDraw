@@ -14,9 +14,11 @@ public class Event {
     @NotBlank(message = "Заполните поле название")
     @Length(max=255, message = "Слишком большое название (введите до 255 символов)")
     private String name;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User owner;
+
     @Transient
     @NotBlank(message = "Введите игроков")
     private String pl_names;

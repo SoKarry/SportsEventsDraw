@@ -42,8 +42,9 @@ public class MainController {
     }
     @GetMapping("/add_event")
     public String add(@AuthenticationPrincipal User user, Model model) {
-        Iterable<Event> events = user.getEvents();
+        Set<Event> events = user.getEvents();
 //        Iterable<Event> events = EventRepo.findAll();
+        System.out.println(events);
         model.addAttribute("events", events);
         return "add_event";
     }
@@ -53,9 +54,11 @@ public class MainController {
                       @Valid Event event, BindingResult bindingResult, Model model){
         event.setOwner(user);
         Stack<String> pl_split = new Stack<String>();
+        Stack<Player> playersList = new Stack<Player>();
         pl_split.addAll(Arrays.asList(pl_names.split("\\r?\\n")));
-        if ((pl_split.size() > 0) && !((pl_split.size() & (pl_split.size() - 1)) == 0)){
-            model.addAttribute("pl_namesError", "Количество участников розыгрыша олимпийской системы жеребьёвки обязательно должно быть степенью двойки!");
+//        System.out.println(pl_split.size());
+        if (((pl_split.size() > 0) && !((pl_split.size() & (pl_split.size() - 1)) == 0)) || (pl_split.size()<2)){
+            model.addAttribute("pl_namesError", "Количество участников олимпийской системы жеребьёвки обязательно должно быть >= 2 и быть степенью двойки!");
         }
         else if (bindingResult.hasErrors()){
             Map<String, String> errorsMap = ErrorController.getErrors(bindingResult);
@@ -68,21 +71,27 @@ public class MainController {
             for (String pl_inp : pl_split) {
                 Player player = new Player(pl_inp);
                 PlayerRepo.save(player);
+                playersList.add(player);
             }
-            Collections.shuffle(pl_split);
-            while (!pl_split.isEmpty()) {
-                Player player1 = PlayerRepo.findByPlname(pl_split.pop());
-                Player player2 = PlayerRepo.findByPlname(pl_split.pop());
+            Collections.shuffle(playersList);
+            System.out.println(playersList);
+            while (!playersList.isEmpty()) {
+                Player player1 = playersList.pop();
+                Player player2 = playersList.pop();
                 Game game = new Game(event, player1, player2);
                 GameRepo.save(game);
             }
             model.addAttribute("event", null);
+            model.addAttribute("game", null);
             model.addAttribute("pl_namesError", null);
+//            model.addAttribute("pl_split", null);
         }
-        Iterable<Event> events = user.getEvents();
+        Set<Event> events = user.getEvents();
+        System.out.println(events);
 //        Iterable<Event> events = EventRepo.findAll();
         model.addAttribute("events", events);
-        return "add_event";
+        model.addAttribute("pl_split", playersList);
+        return "redirect:/add_event/";
     }
     @GetMapping("/event/{event}")
     public String aboutEvent(
@@ -95,6 +104,13 @@ public class MainController {
         model.addAttribute("games", games);
         model.addAttribute("event", event);
         model.addAttribute("isCurrentUser", user.getId().equals(currentUser.getId()));
+//        Set<String> playersNames = new HashSet<String>();
+//        for (Game g : games) {
+//            playersNames.add(g.getPlayer1Name());
+//            playersNames.add(g.getPlayer2Name());
+//        }
+//        System.out.println(playersNames);
+//        model.addAttribute("playersNames", playersNames);
 //        add pl_names for edit
         return "event";
     }
@@ -112,7 +128,6 @@ public class MainController {
             }
             EventRepo.save(event);
         }
-
         return "redirect:/event/" + event.getId();
     }
 
