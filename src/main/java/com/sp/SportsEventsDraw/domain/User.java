@@ -7,12 +7,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -29,7 +29,20 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Event> events;
+    private Set<Event> events = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     public Long getId() {
         return id;
@@ -106,5 +119,10 @@ public class User implements UserDetails {
 
     public void setEvents(Set<Event> events) {
         this.events = events;
+    }
+
+    public void addEvent(Event event) {
+        events.add(event);
+        event.setOwner(this);
     }
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.naming.Binding;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
@@ -45,14 +46,19 @@ public class MainController {
         Set<Event> events = user.getEvents();
 //        Iterable<Event> events = EventRepo.findAll();
         System.out.println(events);
-        model.addAttribute("events", events);
+        Set<Event> events1 = EventRepo.findEventsByOwnerId(user.getId());
+        model.addAttribute("events", events1);
+        System.out.println("events1:");
+        System.out.println(events1);
         return "add_event";
     }
+
     @PostMapping("/add_event")
     public String add(@AuthenticationPrincipal User user,
                       @RequestParam String pl_names,
                       @Valid Event event, BindingResult bindingResult, Model model){
-        event.setOwner(user);
+//        event.setOwner(user);
+        String link = "add_event";
         Stack<String> pl_split = new Stack<String>();
         Stack<Player> playersList = new Stack<Player>();
         pl_split.addAll(Arrays.asList(pl_names.split("\\r?\\n")));
@@ -66,7 +72,9 @@ public class MainController {
             model.addAttribute("event", event);
         }
         else {
+
 //        Event event = new Event(name, user);
+            user.addEvent(event);
             EventRepo.save(event);
             for (String pl_inp : pl_split) {
                 Player player = new Player(pl_inp);
@@ -85,13 +93,15 @@ public class MainController {
             model.addAttribute("game", null);
             model.addAttribute("pl_namesError", null);
 //            model.addAttribute("pl_split", null);
+            link = "redirect:/add_event";
         }
         Set<Event> events = user.getEvents();
+        System.out.println("post: ");
         System.out.println(events);
 //        Iterable<Event> events = EventRepo.findAll();
         model.addAttribute("events", events);
         model.addAttribute("pl_split", playersList);
-        return "redirect:/add_event/";
+        return link;
     }
     @GetMapping("/event/{event}")
     public String aboutEvent(
@@ -103,7 +113,7 @@ public class MainController {
         User user = event.getOwner();
         model.addAttribute("games", games);
         model.addAttribute("event", event);
-        model.addAttribute("isCurrentUser", user.getId().equals(currentUser.getId()));
+        model.addAttribute("isCurrentUser", user.equals(currentUser));
 //        Set<String> playersNames = new HashSet<String>();
 //        for (Game g : games) {
 //            playersNames.add(g.getPlayer1Name());
@@ -125,8 +135,11 @@ public class MainController {
         if (event.getOwner().equals(currentUser)) {
             if (StringUtils.hasText(name)) {
                 event.setName(name);
+                event.setPl_names(pl_names);
+                System.out.println(name);
             }
             EventRepo.save(event);
+            System.out.println("save name");
         }
         return "redirect:/event/" + event.getId();
     }

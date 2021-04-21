@@ -15,7 +15,7 @@ public class Event {
     @Length(max=255, message = "Слишком большое название (введите до 255 символов)")
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User owner;
 
