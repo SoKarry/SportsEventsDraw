@@ -121,8 +121,4 @@ public class User implements UserDetails {
         this.events = events;
     }
 
-    public void addEvent(Event event) {
-        events.add(event);
-        event.setOwner(this);
-    }
 }

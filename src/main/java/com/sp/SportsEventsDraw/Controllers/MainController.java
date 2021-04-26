@@ -57,7 +57,7 @@ public class MainController {
     public String add(@AuthenticationPrincipal User user,
                       @RequestParam String pl_names,
                       @Valid Event event, BindingResult bindingResult, Model model){
-//        event.setOwner(user);
+        event.setOwner(user);
         String link = "add_event";
         Stack<String> pl_split = new Stack<String>();
         Stack<Player> playersList = new Stack<Player>();
@@ -74,7 +74,6 @@ public class MainController {
         else {
 
 //        Event event = new Event(name, user);
-            user.addEvent(event);
             EventRepo.save(event);
             for (String pl_inp : pl_split) {
                 Player player = new Player(pl_inp);
@@ -95,12 +94,13 @@ public class MainController {
 //            model.addAttribute("pl_split", null);
             link = "redirect:/add_event";
         }
-        Set<Event> events = user.getEvents();
+//        Set<Event> events = user.getEvents();
+        Set<Event> events1 = EventRepo.findEventsByOwnerId(user.getId());
         System.out.println("post: ");
-        System.out.println(events);
+//        System.out.println(events);
 //        Iterable<Event> events = EventRepo.findAll();
-        model.addAttribute("events", events);
-        model.addAttribute("pl_split", playersList);
+        model.addAttribute("events", events1);
+        model.addAttribute("pl_split", pl_split);
         return link;
     }
     @GetMapping("/event/{event}")
@@ -136,10 +136,10 @@ public class MainController {
             if (StringUtils.hasText(name)) {
                 event.setName(name);
                 event.setPl_names(pl_names);
-                System.out.println(name);
+//                System.out.println(name);
             }
             EventRepo.save(event);
-            System.out.println("save name");
+//            System.out.println("save name");
         }
         return "redirect:/event/" + event.getId();
     }

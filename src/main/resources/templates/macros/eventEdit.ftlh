@@ -8,7 +8,7 @@
         </#if>
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Введите игроков для жеребьёвки: </label>
-            <textarea class="form-control ${(pl_namesError??)?string('is-invalid', '')}" name="pl_names" rows="5"><#if games??><#list games as game>${game.player1Name}&#10;${game.player2Name}&#10;</#list></#if><#if pl_split??><#list pl_split as pl>${pl}&#10;</#list></#if></textarea>
+            <textarea class="form-control ${(pl_namesError??)?string('is-invalid', '')}" name="pl_names" rows="5" <#if games??>readonly</#if>><#if games??><#list games as game>${game.player1Name}&#10;${game.player2Name}&#10;</#list></#if><#if pl_split??><#list pl_split as pl>${pl}&#10;</#list></#if></textarea>
             <#if pl_namesError??>
                 <div class="invalid-feedback">
                     ${pl_namesError}
