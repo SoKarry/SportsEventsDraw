@@ -43,13 +43,8 @@ public class MainController {
     }
     @GetMapping("/add_event")
     public String add(@AuthenticationPrincipal User user, Model model) {
-        Set<Event> events = user.getEvents();
-//        Iterable<Event> events = EventRepo.findAll();
-        System.out.println(events);
-        Set<Event> events1 = EventRepo.findEventsByOwnerId(user.getId());
-        model.addAttribute("events", events1);
-        System.out.println("events1:");
-        System.out.println(events1);
+        Set<Event> events = EventRepo.findEventsByOwnerId(user.getId());
+        model.addAttribute("events", events);
         return "add_event";
     }
 
@@ -62,7 +57,6 @@ public class MainController {
         Stack<String> pl_split = new Stack<String>();
         Stack<Player> playersList = new Stack<Player>();
         pl_split.addAll(Arrays.asList(pl_names.split("\\r?\\n")));
-//        System.out.println(pl_split.size());
         if (((pl_split.size() > 0) && !((pl_split.size() & (pl_split.size() - 1)) == 0)) || (pl_split.size()<2)){
             model.addAttribute("pl_namesError", "Количество участников олимпийской системы жеребьёвки обязательно должно быть >= 2 и быть степенью двойки!");
         }
@@ -109,7 +103,7 @@ public class MainController {
             @PathVariable Event event,
             Model model
     ) {
-        Set<Game> games = event.getGames();
+        Set<Game> games = GameRepo.findByEvownerOrderById(event);
         User user = event.getOwner();
         model.addAttribute("games", games);
         model.addAttribute("event", event);
@@ -136,10 +130,8 @@ public class MainController {
             if (StringUtils.hasText(name)) {
                 event.setName(name);
                 event.setPl_names(pl_names);
-//                System.out.println(name);
             }
             EventRepo.save(event);
-//            System.out.println("save name");
         }
         return "redirect:/event/" + event.getId();
     }

@@ -1,12 +1,12 @@
 <#import "macros/cmn.ftlh" as p>
 <@p.page>
 Users list for admin
-<table>
+<table class="table">
     <thead>
     <tr>
         <th>Name</th>
         <th>Role</th>
-        <th></th>
+        <th>Edit</th>
     </tr>
     </thead>
     <tbody>
@@ -14,7 +14,7 @@ Users list for admin
         <tr>
             <td>${user.username}</td>
             <td><#list user.roles as role>${role}<#sep>, </#list></td>
-            <td><a href="/user/${user.id}">edit</a></td>
+            <td><a href="/user/${user.id}">✏️ Edit</a></td>
         </tr>
     </#list>
     </tbody>

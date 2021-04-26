@@ -22,7 +22,7 @@ public class Event {
     @Transient
     @NotBlank(message = "Введите игроков")
     private String pl_names;
-    @OneToMany(mappedBy = "ev_owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "evowner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Game> games;
 
     public Event() {

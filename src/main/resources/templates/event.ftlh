@@ -9,7 +9,7 @@
 </#if>
 </@p.page>
 
-
+<H1 class="text-center"><#if event??>${event.name}</#if></H1>
 <div id="tournamentBodyWrapper">
     <div data-v-925ca4a2="">
         <div data-v-925ca4a2="" id="tournamentBody" class="is-hidden-mobile size-1x">
@@ -19,14 +19,14 @@
                     <#list games as game>
                         <div data-v-925ca4a2="" class="pair pair_${(game?index%2)+1}">
                             <div data-v-58dea290="" data-v-925ca4a2="" class="player player1">
-                                <figure data-v-58dea290="" class="image"><img data-v-58dea290="" src="https://image.flaticon.com/icons/png/512/236/236842.png" class="is-rounded is-clickable_"></figure>
+                                <figure data-v-58dea290="" class="image"><img data-v-58dea290="" src="/img/icon.png"></figure>
                                 <span data-v-58dea290="" title="Edit participant" class="is-uppercase text-ellipsis is-clickable_ winner" style="width: 140px;">
 			${game.player1Name}
 		 </span>
                                 <div data-v-58dea290="" title="Edit match score " class="has-background-yellow_ is-clickable_"></div>
                             </div>
                             <div data-v-58dea290="" data-v-925ca4a2="" class="player player2">
-                                <figure data-v-58dea290="" class="image"><img data-v-58dea290="" src="https://image.flaticon.com/icons/png/512/236/236842.png" class="is-rounded is-clickable_"></figure>
+                                <figure data-v-58dea290="" class="image"><img data-v-58dea290="" src="/img/icon.png"></figure>
                                 <span data-v-58dea290="" title="Edit participant" class="is-uppercase text-ellipsis is-clickable_ winner" style="width: 140px;">
 			${game.player2Name}
 		 </span>
@@ -45,13 +45,13 @@
                         <#list 0..((games?size)/i)-1 as game>
                                 <div data-v-925ca4a2="" class="pair pair_${(game?index%2)+1}">
                                     <div data-v-58dea290="" data-v-925ca4a2="" class="player player1">
-                                        <figure data-v-58dea290="" class="image"><img data-v-58dea290="" src="https://image.flaticon.com/icons/png/512/236/236842.png" class="is-rounded"></figure>
+                                        <figure data-v-58dea290="" class="image"><img data-v-58dea290="" src="/img/icon.png"></figure>
                                         <span data-v-58dea290="" title="undefined" class="is-uppercase text-ellipsis winner" style="width: 140px;">
 				                        </span>
                                         <div data-v-58dea290="" title="" class="has-background-yellow_"></div>
                                     </div>
                                     <div data-v-58dea290="" data-v-925ca4a2="" class="player player2">
-                                        <figure data-v-58dea290="" class="image"><img data-v-58dea290="" src="https://image.flaticon.com/icons/png/512/236/236842.png" class="is-rounded"></figure>
+                                        <figure data-v-58dea290="" class="image"><img data-v-58dea290="" src="/img/icon.png"></figure>
                                         <span data-v-58dea290="" title="undefined" class="is-uppercase text-ellipsis winner" style="width: 140px;">
 				                        </span>
                                         <div data-v-58dea290="" title="" class="has-background-yellow_"></div>
