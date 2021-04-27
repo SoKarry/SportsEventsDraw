@@ -6,7 +6,6 @@
     <div class="col-9">
         <#include "macros/eventsTable.ftlh" />
     </div>
-<#if types??>
     <div class="col">
         <div class="list-group">
             <label class="badge badge-pill badge-info">Фильтр по видам спорта:</label>
@@ -34,5 +33,4 @@
         </div>
     </div>
 </div>
-</#if>
 </@p.page>

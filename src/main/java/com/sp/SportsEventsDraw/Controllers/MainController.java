@@ -99,7 +99,16 @@ public class MainController {
                 playersList.add(player);
             }
             Collections.shuffle(playersList);
-            System.out.println(playersList);
+//          Если круговая
+            for (Player pl1 : playersList) {
+                for (Player pl2 : playersList) {
+                    if (pl1 != pl2) {
+                        Game game = new Game(event, pl1, pl2);
+                        GameRepo.save(game);
+                    }
+                }
+            }
+//          Если олимпийская
             while (!playersList.isEmpty()) {
                 Player player1 = playersList.pop();
                 Player player2 = playersList.pop();

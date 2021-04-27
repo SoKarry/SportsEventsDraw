@@ -1,7 +1,9 @@
 package com.sp.SportsEventsDraw.Controllers;
 
 import com.sp.SportsEventsDraw.Repositories.UserRepo;
+import com.sp.SportsEventsDraw.domain.Event;
 import com.sp.SportsEventsDraw.domain.Role;
+import com.sp.SportsEventsDraw.domain.Type;
 import com.sp.SportsEventsDraw.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,9 +25,27 @@ public class UserController {
     private UserRepo userRepo;
 
     @GetMapping
-    public String userList(Model model) {
-        model.addAttribute("users", userRepo.findAll());
-
+    public String userList(@RequestParam(required = false) String role,
+                           @RequestParam(required = false, defaultValue = "") String filter,
+                           Model model) {
+        List<User> users = userRepo.findAll();
+        if (filter != null && !filter.isEmpty()) {
+            if (role != null && !role.isEmpty()) {
+                model.addAttribute("role", role);
+                users = userRepo.findUsersByRolesAndUsernameContaining(Role.valueOf(role), filter);
+            } else {
+                users = userRepo.findUsersByUsernameContaining(filter);
+            }
+        }
+        else {
+            if (role != null) {
+                model.addAttribute("role", role);
+                users = userRepo.findUsersByRoles(Role.valueOf(role));
+            }
+        }
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("users", users);
+        model.addAttribute("filter", filter);
         return "userList";
     }
 
