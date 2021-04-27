@@ -25,6 +25,10 @@ public class Event {
     @OneToMany(mappedBy = "evowner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Game> games;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "type_id")
+    private Type type;
+
     public Event() {
     }
 
@@ -75,5 +79,13 @@ public class Event {
 
     public void setGames(Set<Game> games) {
         this.games = games;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

@@ -3,10 +3,8 @@ package com.sp.SportsEventsDraw.Controllers;
 import com.sp.SportsEventsDraw.Repositories.EventRepo;
 import com.sp.SportsEventsDraw.Repositories.GameRepo;
 import com.sp.SportsEventsDraw.Repositories.PlayerRepo;
-import com.sp.SportsEventsDraw.domain.Event;
-import com.sp.SportsEventsDraw.domain.Game;
-import com.sp.SportsEventsDraw.domain.Player;
-import com.sp.SportsEventsDraw.domain.User;
+import com.sp.SportsEventsDraw.Repositories.TypeRepo;
+import com.sp.SportsEventsDraw.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -34,31 +32,57 @@ public class MainController {
     @Autowired
     private PlayerRepo PlayerRepo;
     @Autowired
+    private TypeRepo TypeRepo;
+    @Autowired
     private GameRepo GameRepo;
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(@RequestParam(required = false) Long type_id, @RequestParam(required = false, defaultValue = "") String filter, Model model) {
         Iterable<Event> events = EventRepo.findAll();
+        if (filter != null && !filter.isEmpty()) {
+            if (type_id != null) {
+                Type type = TypeRepo.findTypeById(type_id);
+                model.addAttribute("type", type);
+                events = EventRepo.findEventsByTypeAndNameContaining(type, filter);
+            } else {
+                events = EventRepo.findEventsByNameContaining(filter);
+            }
+        }
+        else {
+            if (type_id != null) {
+                Type type = TypeRepo.findTypeById(type_id);
+                model.addAttribute("type", type);
+                events = EventRepo.findEventsByType(type);
+        }
+            }
+        Iterable<Type> types = TypeRepo.findAll();
         model.addAttribute("events", events);
+        model.addAttribute("filter", filter);
+        model.addAttribute("types", types);
         return "index";
     }
     @GetMapping("/add_event")
     public String add(@AuthenticationPrincipal User user, Model model) {
         Set<Event> events = EventRepo.findEventsByOwnerId(user.getId());
+        Iterable<Type> types = TypeRepo.findAll();
         model.addAttribute("events", events);
+        model.addAttribute("types", types);
         return "add_event";
     }
 
     @PostMapping("/add_event")
     public String add(@AuthenticationPrincipal User user,
                       @RequestParam String pl_names,
+                      @RequestParam String type_name,
                       @Valid Event event, BindingResult bindingResult, Model model){
         event.setOwner(user);
+        Type type = TypeRepo.findByName(type_name);
+        event.setType(type);
         String link = "add_event";
         Stack<String> pl_split = new Stack<String>();
         Stack<Player> playersList = new Stack<Player>();
         pl_split.addAll(Arrays.asList(pl_names.split("\\r?\\n")));
-        if (((pl_split.size() > 0) && !((pl_split.size() & (pl_split.size() - 1)) == 0)) || (pl_split.size()<2)){
-            model.addAttribute("pl_namesError", "Количество участников олимпийской системы жеребьёвки обязательно должно быть >= 2 и быть степенью двойки!");
+        if (((pl_split.size() > 0) && !((pl_split.size() & (pl_split.size() - 1)) == 0)) || (pl_split.size()<4)){
+            model.addAttribute("pl_namesError", "Количество участников олимпийской системы жеребьёвки обязательно должно быть >= 4 и быть степенью двойки!");
         }
         else if (bindingResult.hasErrors()){
             Map<String, String> errorsMap = ErrorController.getErrors(bindingResult);
@@ -89,11 +113,11 @@ public class MainController {
             link = "redirect:/add_event";
         }
 //        Set<Event> events = user.getEvents();
-        Set<Event> events1 = EventRepo.findEventsByOwnerId(user.getId());
+        Set<Event> events = EventRepo.findEventsByOwnerId(user.getId());
         System.out.println("post: ");
 //        System.out.println(events);
 //        Iterable<Event> events = EventRepo.findAll();
-        model.addAttribute("events", events1);
+        model.addAttribute("events", events);
         model.addAttribute("pl_split", pl_split);
         return link;
     }
@@ -104,9 +128,11 @@ public class MainController {
             Model model
     ) {
         Set<Game> games = GameRepo.findByEvownerOrderById(event);
+        Iterable<Type> types = TypeRepo.findAll();
         User user = event.getOwner();
         model.addAttribute("games", games);
         model.addAttribute("event", event);
+        model.addAttribute("types", types);
         model.addAttribute("isCurrentUser", user.equals(currentUser));
 //        Set<String> playersNames = new HashSet<String>();
 //        for (Game g : games) {
@@ -124,11 +150,14 @@ public class MainController {
             @AuthenticationPrincipal User currentUser,
             @PathVariable Event event,
             @RequestParam("name") String name,
+            @RequestParam String type_name,
             @RequestParam("pl_names") String pl_names
     ) throws IOException {
         if (event.getOwner().equals(currentUser)) {
             if (StringUtils.hasText(name)) {
+                Type type = TypeRepo.findByName(type_name);
                 event.setName(name);
+                event.setType(type);
                 event.setPl_names(pl_names);
             }
             EventRepo.save(event);

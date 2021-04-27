@@ -1,9 +1,10 @@
 create sequence hibernate_sequence start 1 increment 1;
 
-create table event(id int8 not null, name varchar(255) not null, user_id int8, primary key (id));
+create table event(id int8 not null, name varchar(255) not null, user_id int8, primary key (id), type_id int8);
 
 create table game (id int8 not null, event_id int8, player1_id int8, player2_id int8, primary key (id));
 create table player (id int8 not null, plname varchar(255), primary key (id));
+create table type (id int8 not null, name varchar(255), primary key (id));
 
 create table user_role (
     user_id int8 not null,

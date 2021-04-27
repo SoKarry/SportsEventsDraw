@@ -12,7 +12,6 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     </head>
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand">Sports Events Draw</a>
@@ -22,30 +21,29 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/">Главная</a>
                     </li>
                     <#if !known>
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link" href="/login">Вход</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/registration">Register</a>
+                        <a class="nav-link" href="/registration">Регистрация</a>
                     </li>
                     </#if>
                     <li class="nav-item">
-                        <a class="nav-link" href="/add_event">My events</a>
+                        <a class="nav-link" href="/add_event">Мои события</a>
                     </li>
                     <#if isAdmin>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user">User List</a>
+                        <a class="nav-link" href="/user">Пользователи сайта</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/typelist">Виды спорта</a>
                     </li>
                     </#if>
                 </ul>
             </div>
-<#--            <div class="dropdown show">-->
-<#--                <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<#--                    ${name}-->
-<#--                </a>-->
             <#if known>
                 <div class="dropdown show">
                     <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,8 +51,6 @@
                     </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
                     <a class="dropdown-item"><@l.logout /></a>
-<#--                    <a class="dropdown-item" href="#">Another action</a>-->
-<#--                    <a class="dropdown-item" href="#">Something else here</a>-->
                 </div>
             <#else>
                 <div class="navbar-text mr-2"><b>${name}</b></div>
@@ -64,7 +60,7 @@
     </nav>
     <body>
     <div class="container p-4">
-    <#nested>
+        <#nested >
     </div>
     </body>
     </html>

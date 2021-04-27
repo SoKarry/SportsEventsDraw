@@ -1,5 +1,15 @@
 <div>
     <form method="post">
+        <div class="form-group">
+            <label>Выберите вид спорта</label>
+            <select class="form-control" name="type_name">
+                <#if types??>
+                    <#list types as type>
+                    <option <#if event?? && event.type.id==type.id>selected="selected"</#if>>${type.name}</option>
+                    </#list>
+                </#if>
+            </select>
+        </div>
         <input type="text" class="form-control ${(nameError??)?string('is-invalid', '')}" value="<#if event??>${event.name}</#if>" name="name" placeholder="Введите название события" />
         <#if nameError??>
             <div class="invalid-feedback">

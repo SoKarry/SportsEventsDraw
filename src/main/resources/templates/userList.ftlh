@@ -1,6 +1,6 @@
 <#import "macros/cmn.ftlh" as p>
 <@p.page>
-Users list for admin
+    <H1 class="text-center">Менеджер зарегистрированных пользователей</H1>
 <table class="table">
     <thead>
     <tr>
