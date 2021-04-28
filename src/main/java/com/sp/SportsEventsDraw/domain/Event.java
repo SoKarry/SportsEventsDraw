@@ -29,6 +29,10 @@ public class Event {
     @JoinColumn(name = "type_id")
     private Type type;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "draw_id")
+    private Draw draw;
+
     public Event() {
     }
 
@@ -87,5 +91,13 @@ public class Event {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Draw getDraw() {
+        return draw;
+    }
+
+    public void setDraw(Draw draw) {
+        this.draw = draw;
     }
 }

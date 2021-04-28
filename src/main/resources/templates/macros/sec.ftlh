@@ -11,7 +11,7 @@ known = Session.SPRING_SECURITY_CONTEXT??
     >
 <#else>
     <#assign
-    name = "Login to start work"
+    name = "Войдите, чтобы начать работу"
     isAdmin = false
     currentUserId = -10
     >

@@ -1,22 +1,21 @@
 package com.sp.SportsEventsDraw.domain;
 
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-public class Type {
+public class Draw {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Event> events;
 
-    public Type() {
+    public Draw() {
     }
 
-    public Type(Long id, String name) {
+    public Draw(Long id, String name) {
         this.id = id;
         this.name = name;
     }

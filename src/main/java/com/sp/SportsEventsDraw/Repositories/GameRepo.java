@@ -8,4 +8,5 @@ import java.util.Set;
 
 public interface GameRepo extends CrudRepository<Game, Long> {
     Set<Game> findByEvownerOrderById(Event event);
+    Set<Game> findByPlayer1IdOrderById(Long id);
 }

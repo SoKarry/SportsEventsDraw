@@ -7,6 +7,7 @@
         ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
     </div>
 </#if>
-Page which help you to Login
+<H1 class="text-center">Вход</H1>
+<p></p>
 <@l.login "/login" false/>
 </@p.page>

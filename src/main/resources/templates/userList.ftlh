@@ -1,14 +1,21 @@
 <#import "macros/cmn.ftlh" as p>
 <@p.page>
 <H1 class="text-center">Менеджер зарегистрированных пользователей</H1>
+    <p></p>
+    <#if RequestParameters.error??>
+        <div class="alert alert-danger" role="alert">
+            ${RequestParameters.error}
+        </div>
+    </#if>
     <div class="row">
         <div class="col-9">
-            <table class="table">
+            <table class="table text-center">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Role</th>
-                    <th>Edit</th>
+                    <th>Логин</th>
+                    <th>Роли</th>
+                    <th>Изменить</th>
+                    <th>Удалить</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -16,7 +23,8 @@
                     <tr>
                         <td>${user.username}</td>
                         <td><#list user.roles as role>${role}<#sep>, </#list></td>
-                        <td><a href="/user/${user.id}">✏️ Edit</a></td>
+                        <td><a href="/user/${user.id}">✏️</a></td>
+                        <td><a href="/user/del/${user.id}">🗑</a></td>
                     </tr>
                 </#list>
                 </tbody>

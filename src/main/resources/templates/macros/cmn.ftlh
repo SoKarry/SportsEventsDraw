@@ -25,15 +25,13 @@
                     </li>
                     <#if !known>
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Вход</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/registration">Регистрация</a>
                     </li>
-                    </#if>
+                    <#else>
                     <li class="nav-item">
                         <a class="nav-link" href="/add_event">Мои события</a>
                     </li>
+                    </#if>
                     <#if isAdmin>
                     <li class="nav-item">
                         <a class="nav-link" href="/user">Пользователи сайта</a>
@@ -42,6 +40,9 @@
                         <a class="nav-link" href="/typelist">Виды спорта</a>
                     </li>
                     </#if>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">Об авторе</a>
+                    </li>
                 </ul>
             </div>
             <#if known>
@@ -53,7 +54,7 @@
                     <a class="dropdown-item"><@l.logout /></a>
                 </div>
             <#else>
-                <div class="navbar-text mr-2"><b>${name}</b></div>
+                <div class="navbar-text mr-2"><a href="/login"><b>${name}</b></a></div>
             </#if>
             </div>
         </div>

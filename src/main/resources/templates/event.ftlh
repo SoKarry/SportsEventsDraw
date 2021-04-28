@@ -10,6 +10,7 @@
 </@p.page>
 
 <H1 class="text-center"><#if event??>${event.name}</#if></H1>
+<#if event.draw.id=1>
 <div id="tournamentBodyWrapper">
     <div data-v-925ca4a2="">
         <div data-v-925ca4a2="" id="tournamentBody" class="is-hidden-mobile size-1x">
@@ -66,3 +67,44 @@
         </div>
     </div>
 </div>
+<#elseif event.draw.id=2>
+    <div id="tournamentBodyWrapper">
+        <div data-v-8d4ae3dc="" class="round-table" id="tournamentBody">
+            <div data-v-8d4ae3dc="" class="round-table-header has-background-black_">
+                <div data-v-8d4ae3dc="" class="name-col" style="padding-left: 2.25rem;"></div>
+                <div data-v-8d4ae3dc="" class="devider-col">|</div>
+                <#list 1..players?size as pla>
+                <div data-v-8d4ae3dc="">
+                    ${pla}
+                </div>
+                </#list>
+                <div data-v-8d4ae3dc="" class="devider-col"></div>
+            </div>
+            <div data-v-8d4ae3dc="" class="devider-row"></div>
+            <div data-v-8d4ae3dc="" class="round-table-body">
+                <div data-v-8d4ae3dc="" class="body-cell body-cell-player">
+                    <#list players as player>
+                    <div data-v-8d4ae3dc="" class="">
+                        <span data-v-8d4ae3dc="" class="player-index">${player?index+1}</span>
+                        <figure data-v-8d4ae3dc="" class="image"><img data-v-8d4ae3dc="" src="/img/iconk.png" class="is-rounded is-clickable_"></figure>
+                        <span data-v-8d4ae3dc="" title="Edit participant" class="is-clickable_">
+                          ${player.plname}
+                    </span>
+                    </div>
+                    </#list>
+                </div>
+                <div data-v-8d4ae3dc="" class="body-cell-opener">
+                    <div data-v-8d4ae3dc=""><span data-v-8d4ae3dc="" class="opener-btn opener-btn-left"></span></div>
+                </div>
+                <#list 1..players?size as sz>
+                <div data-v-8d4ae3dc="" class="body-cell body-cell-score">
+                    <#list players as player>
+                    <div data-v-8d4ae3dc="" class="has-text-weight-normal_ is-clickable_"><#if player?index+1 == sz>-</#if></div>
+                    </#list>
+                </div>
+                </#list>
+            </div>
+        </div>
+    </div>
+<#else>
+</#if>

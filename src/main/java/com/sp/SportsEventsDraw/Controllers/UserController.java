@@ -57,6 +57,17 @@ public class UserController {
         return "userEdit";
     }
 
+    @GetMapping("/del/{user}")
+    public String delUser(@PathVariable User user, Model model) {
+        if (user.getId()!=1){
+            userRepo.deleteById(user.getId());
+        }
+        else {
+            model.addAttribute("error", "Нельзя удалить Главного Администратора!");
+        }
+        return "redirect:/user";
+    }
+
     @PostMapping
     public String userSave(
             @RequestParam String username,

@@ -44,4 +44,10 @@ public class TypeController {
         TypeRepo.save(type);
         return "redirect:/typelist";
     }
+
+    @GetMapping("/typelist/del/{type}")
+    public String delType(@PathVariable Type type, Model model) {
+        TypeRepo.deleteById(type.getId());
+        return "redirect:/typelist";
+    }
 }
