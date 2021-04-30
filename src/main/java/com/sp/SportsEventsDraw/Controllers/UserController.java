@@ -1,9 +1,7 @@
 package com.sp.SportsEventsDraw.Controllers;
 
 import com.sp.SportsEventsDraw.Repositories.UserRepo;
-import com.sp.SportsEventsDraw.domain.Event;
 import com.sp.SportsEventsDraw.domain.Role;
-import com.sp.SportsEventsDraw.domain.Type;
 import com.sp.SportsEventsDraw.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,8 +15,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+//Контроллер для работы с пользователями
 @Controller
 @RequestMapping("/user")
+//Доступен только Администратору
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     @Autowired

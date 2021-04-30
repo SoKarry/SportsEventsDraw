@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+//Сущность жеребьёвки
 @Entity
 public class Draw {
     @Id

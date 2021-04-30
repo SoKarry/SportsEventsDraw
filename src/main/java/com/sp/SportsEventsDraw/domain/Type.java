@@ -1,9 +1,9 @@
 package com.sp.SportsEventsDraw.domain;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
+//Сущность вида спорта
 @Entity
 public class Type {
     @Id

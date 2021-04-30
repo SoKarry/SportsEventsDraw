@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+//Контроллер для работы с видами спорта
 @Controller
+//Доступен только Администратору
 @PreAuthorize("hasAuthority('ADMIN')")
 public class TypeController {
     @Autowired

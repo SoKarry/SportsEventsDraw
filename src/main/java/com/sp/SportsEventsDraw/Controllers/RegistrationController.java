@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 import java.util.Map;
 
+//Контроллер для обработки регистрации пользователей
 @Controller
 public class RegistrationController {
     @Autowired

@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+//Сущность пользователя
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {

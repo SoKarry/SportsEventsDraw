@@ -2,6 +2,7 @@ package com.sp.SportsEventsDraw.domain;
 
 import javax.persistence.*;
 
+//Сущность игры (матча)
 @Entity
 public class Game {
     @Id

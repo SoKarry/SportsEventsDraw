@@ -2,27 +2,22 @@ package com.sp.SportsEventsDraw.Controllers;
 
 import com.sp.SportsEventsDraw.Repositories.*;
 import com.sp.SportsEventsDraw.domain.*;
-import com.sun.source.util.SourcePositions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.naming.Binding;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
+//Главный контроллер
 @Controller
 public class MainController {
     @Autowired
@@ -102,7 +97,6 @@ public class MainController {
             model.addAttribute("event", event);
         }
         else {
-//        Event event = new Event(name, user);
             EventRepo.save(event);
             for (String pl_inp : pl_split) {
                 Player player = new Player(pl_inp);
@@ -110,7 +104,7 @@ public class MainController {
                 playersList.add(player);
             }
             Collections.shuffle(playersList);
-            //Если олимпийская
+            //Алгоритм жеребъёвки, если выбрана олимпийская система
             if (event.getDraw().getId() == 1) {
                 while (!playersList.isEmpty()) {
                     Player player1 = playersList.pop();
@@ -118,7 +112,7 @@ public class MainController {
                     Game game = new Game(event, player1, player2);
                     GameRepo.save(game);
                 }
-                //Если круговая
+            //Алгоритм жеребъёвки, если выбрана круговая система
             } else if (event.getDraw().getId() == 2) {
                 for (Player pl1 : playersList) {
                     for (Player pl2 : playersList) {
@@ -135,10 +129,7 @@ public class MainController {
             model.addAttribute("pl_split", null);
             link = "redirect:/add_event";
         }
-//        Set<Event> events = user.getEvents();
         Set<Event> events = EventRepo.findEventsByOwnerId(user.getId());
-//        System.out.println(events);
-//        Iterable<Event> events = EventRepo.findAll();
         model.addAttribute("events", events);
         model.addAttribute("draws", DrawRepo.findAll());
         model.addAttribute("types", TypeRepo.findAll());
@@ -169,14 +160,6 @@ public class MainController {
         model.addAttribute("types", types);
         model.addAttribute("draws", DrawRepo.findAll());
         model.addAttribute("isCurrentUser", user.equals(currentUser));
-//        Set<String> playersNames = new HashSet<String>();
-//        for (Game g : games) {
-//            playersNames.add(g.getPlayer1Name());
-//            playersNames.add(g.getPlayer2Name());
-//        }
-//        System.out.println(playersNames);
-//        model.addAttribute("playersNames", playersNames);
-//        add pl_names for edit
         return "event";
     }
 

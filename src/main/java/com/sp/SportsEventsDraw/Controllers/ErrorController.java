@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
         import java.util.stream.Collector;
         import java.util.stream.Collectors;
 
+//Контроллер для обработки ошибок
 public class ErrorController {
     static Map<String, String> getErrors(BindingResult bindingResult) {
         Collector<FieldError, ?, Map<String, String>> collector = Collectors.toMap(
